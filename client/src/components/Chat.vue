@@ -63,8 +63,8 @@
                     <ul>
                         <li class="text-muted-one" v-for="msg in messages" :key="msg.id">
                             <div class="msg-left" v-if="msg.username != username && !msg.name">
-                                <p class="msg" :style="getColor(msg.id)">@{{msg.username}}</p>
-                                <p class="msg" :style="getColor(msg.id)">-</p>
+                                <p class="msg" :style="colorFromMessageId(msg.id)">@{{msg.username}}</p>
+                                <p class="msg" :style="colorFromMessageId(msg.id)">-</p>
                                 <p class="msg">{{read(msg.message)}}</p>
                                 <p class="msg timestamp">{{getTime(msg.timestamp)}}</p>
                             </div>
@@ -72,8 +72,8 @@
                                 <p class="msg"><strong>@{{msg.username}}</strong>{{msg.message}}</p>
                             </div>
                             <div class="msg-right" v-else>
-                                <p class="msg" :style="getColor(msg.id)">@{{msg.username}}</p>
-                                <p class="msg" :style="getColor(msg.id)">-</p>
+                                <p class="msg" :style="colorFromMessageId(msg.id)">@{{msg.username}}</p>
+                                <p class="msg" :style="colorFromMessageId(msg.id)">-</p>
                                 <p class="msg">{{read(msg.message)}}</p>
                                 <p class="msg timestamp">{{getTime(msg.timestamp)}}</p>
                             </div>
@@ -90,9 +90,9 @@
             </div>
         </div>
         <div class="sidebar">
-            <div class="members" v-if="members.length > 0">
+            <div class="members">
                 <ul class="memberUl">
-                    <li class="text-muted-one member" v-for="member in members" :key="member.id" :style="colorT(member.color)">@{{member.username}}</li>
+                    <li class="text-muted-one member" v-for="item in membersID" :key="item.id" :style="colorFromId(item)">@{{usernameFromId(item)}}</li>
                 </ul>
             </div>
         </div>
@@ -116,6 +116,7 @@ export default {
             socket: io('localhost:3000'),
             messages: [],
             members: new Array(),
+            membersID: [],
             cpt: 0
         }
     },
@@ -131,40 +132,35 @@ export default {
     mounted() {
         this.socket.on('member_new', member => {
             this.messages.push({username: member.username, message: " joined the conversation", name:'root'})
-            this.members.push(member)
-            console.log(this.members)
+            this.members[member.id] = member
+            this.membersID.push(member.id)
         })
         this.socket.on('member_lost', data => {
-            this.messages.push({username: data.username, message: " leaved the conversation", name:'root'})
-            for(var i = 0; i<this.members.length;i++){
-                if(data.id == this.members[i].id){
-                    console.log(this.members[i].username)
-                    this.members.splice(i,1)
-                }
+            if(this.members[data.id]){
+                this.messages.push({username: data.username, message: " left the conversation", name:'root'})
+                delete this.members[data.id]
+                this.membersID = this.membersID.filter(function(id){ return id != data.id})
             }
-            console.log(this.members)
         })
         this.socket.on('color_update', data => {
-            for(var i = 0; i<this.members.length;i++){
-                if(data.id == this.members[i].id){
-                    this.members[i].color = data.color
-                }
+            if(this.members[data.id]){
+                this.members[data.id].color = data.color
             }
-            console.log(this.members)
+            this.$forceUpdate()
         })
         this.socket.on('message', message => {
             this.messages.push(message)
             this.scroll()
         })
-        this.socket.emit('init',this.init())
-        //Refresh time each minute
+        this.socket.emit('init',{username: this.username, color: this.color, room : this.room})
+
         setInterval(()=>{
             this.$forceUpdate()
         }, 1000 * 60)
     },
     computed : {
         nb_members : function(){
-            return this.members.length
+            return this.membersID.length
         },
         getInputColor : function(){
             return 'border: solid 1px ' + this.color + ';'
@@ -174,10 +170,6 @@ export default {
         }
     },
     methods: {
-        init(){
-            const member = {username: this.username, color: this.color, room : this.room}
-            return member
-        },
         sendMessage(){
             if(this.message != "" && this.message != " "){
                 this.socket.emit('message', {'username': this.username, 'room': this.room, 'message': new SimpleCrypto(this.key).encrypt(this.message), timestamp: Date.now(), id: this.socket.id + '@' + this.getCpt()})
@@ -188,28 +180,20 @@ export default {
             this.cpt += 1
             return this.cpt
         },
-        getColor(id){
-            for(var i = 0; i<this.members.length;i++){
-                if(id.split('@')[0] == this.members[i].id){
-                    return 'color:'+this.members[i].color+';'
-                }
+        colorFromMessageId(id){
+            if(this.members[id.split('@')[0]]){
+                return 'color:'+ this.members[id.split('@')[0]].color + ';'
             }
-            return 'color:#4169e1;'
-            //#fa27a0 ROSE
-            //#e2da3f JAUNE
+            return 'color:#363636;'
+
         },
-        colorT(c){
-            return 'color:'+c+';'
+        colorFromId(id){
+            return 'color:'+ this.members[id].color +';'
+        },
+        usernameFromId(id){
+            return this.members[id].username
         },
         sendColor(){
-            for(var i = 0; i<this.members.length;i++){
-                if(this.members[i].id == this.socket.id){
-                    this.members[i].color = this.color
-                }
-            }
-            this.members = this.members.filter(function (item) {
-                return item
-            })
             localStorage.setItem("color",this.color)
             this.socket.emit('color_update',{color: this.color, room: this.room})
         },
