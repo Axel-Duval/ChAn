@@ -12,7 +12,7 @@
 
 ## Free
 
--   No fee
+-   No fees
 -   No ads
 
 
@@ -22,7 +22,7 @@
 - Customize color theme
 - Url linl to invite someone
 - Message encryption
-- 
+
 ### To come
 - File transfer
 - Pin message
