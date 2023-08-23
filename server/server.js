@@ -1,58 +1,79 @@
-const PORT = process.env.PORT || 3000
-const app = require('express')()
-const server = require('http').createServer(app)
-const io = require('socket.io')(server)
+const app = require("express")();
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
 
+const PORT = process.env.PORT || 3000;
+const COMMANDS = {
+  JOIN: "join",
+  LEAVE: "leave",
+  MESSAGE: "message",
+  CONNECTED: "connected",
+  DISCONNECTED: "disconnected",
+  COLOR_UPDATE: "color_update",
+};
 
-io.on('connection', client => {
+const _leave = (io, client, room) =>
+  io.sockets.in(room).emit(COMMANDS.LEAVE, { id: client.id });
 
-    /* INITIALIZATION */
-    client.on('init', data => {
-        if(client.room){
-            client.leave(client.room)
-        }
+const _disconnect = (client) => client.disconnect();
 
-        client.room = data.room
-        client.username = data.username
-        client.color = data.color
+io.on("connection", (client) => {
+  /* INITIALIZATION */
+  client.on("init", (data) => {
+    if (client.room) {
+      client.leave(client.room);
+    }
 
-        io.sockets.in(client.room).emit('member_new', {id: client.id, username: client.username, color: client.color, room: client.room})
-        
-        for(var prop in io.sockets.in(client.room).sockets){
-            if(io.sockets.in(client.room).sockets[prop].username && io.sockets.in(client.room).sockets[prop].room == client.room){
-                client.emit('member_new', {id: io.sockets.in(client.room).sockets[prop].id, username: io.sockets.in(client.room).sockets[prop].username, color: io.sockets.in(client.room).sockets[prop].color, room: io.sockets.in(client.room).sockets[prop].room})
-            }
-        }
-        client.join(client.room)
-    })
+    client.room = data.rooms;
+    client.username = data.username;
+    client.color = data.color;
 
-    /* UPDATE COLOR */
-    client.on('color_update', data => {
-        client.color = data.color
-        io.sockets.in(data.room).emit('color_update', {id: client.id, color: client.color})
-    })
-
-    /* MESSAGE TRANSMISSION */
-    client.on('message', message => {
-        io.sockets.in(message.room).emit('message', message)
-    })
-
-    /* CLIENT LEAVES */
-    client.on('leave', data => {
-        if(data.sure){
-            io.sockets.in(data.room).emit('member_lost', {id: client.id, username: client.username})
-        }
-    })
-
-    /* DISCONNECTION */
-    client.on('disconnect', () => {        
-        client.disconnect()
+    io.sockets.in(client.room).emit(COMMANDS.JOIN, {
+      id: client.id,
+      username: client.username,
+      color: client.color,
+      room: client.room,
     });
-})
+
+    for (var prop in io.sockets.in(client.room).sockets) {
+      if (
+        io.sockets.in(client.room).sockets[prop].username &&
+        io.sockets.in(client.room).sockets[prop].room == client.room
+      ) {
+        client.emit(COMMANDS.CONNECTED, {
+          id: io.sockets.in(client.room).sockets[prop].id,
+          username: io.sockets.in(client.room).sockets[prop].username,
+          color: io.sockets.in(client.room).sockets[prop].color,
+          room: io.sockets.in(client.room).sockets[prop].room,
+        });
+      }
+    }
+    client.join(client.room);
+  });
+
+  /* UPDATE COLOR */
+  client.on("color_update", (data) => {
+    client.color = data.color;
+    io.sockets
+      .in(data.room)
+      .emit("color_update", { id: client.id, color: client.color });
+  });
+
+  /* MESSAGE TRANSMISSION */
+  client.on("message", (message) => {
+    io.sockets.in(message.room).emit("message", message);
+  });
+
+  /* CLIENT LEAVES */
+  client.on(COMMANDS.LEAVE, (data) => _leave(io, client, data.room));
+
+  /* DISCONNECTION */
+  client.on(COMMANDS.DISCONNECTED, () => _disconnect(client));
+});
 
 //Start server
 server.listen(PORT, () => {
-    console.log('Server is running on port : ' + PORT)
-})
+  console.log("Server is running on port : " + PORT);
+});
 
-module.exports = app
+export default app;
