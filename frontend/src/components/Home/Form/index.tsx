@@ -37,6 +37,7 @@ export const Form = () => {
           name="color"
           type="color"
           tabIndex={1}
+          autoComplete="off"
           value={color}
           onChange={(e) => setColor(e.target.value)}
           onBlur={() => dispatch({ type: "color", color })}
@@ -51,7 +52,7 @@ export const Form = () => {
           tabIndex={2}
           placeholder="username"
           spellCheck={false}
-          autoComplete={"off"}
+          autoComplete="off"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           onBlur={() => dispatch({ type: "username", username })}
@@ -73,7 +74,7 @@ export const Form = () => {
           tabIndex={3}
           placeholder="room"
           spellCheck={false}
-          autoComplete={"off"}
+          autoComplete="off"
           maxLength={ROOM_CODE_LENGTH}
           value={room}
           onChange={(e) => setRoom(e.target.value)}

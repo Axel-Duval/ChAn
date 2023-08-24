@@ -5,7 +5,7 @@ export const theme = {
     white: "#f5f5f5ff",
     black: "#020202ff",
     muted: "#555555ff",
-    ultra: "#ffffff25",
+    ultra: "#ffffff24",
     blue: {
       crayola: "#acadbcff",
       bell: "#9b9eceff",

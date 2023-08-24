@@ -1,7 +1,6 @@
 import { styled } from "../../../theme";
 
 export const Wrapper = styled.main`
-  background-color: ${(props) => props.theme.color.black};
   color: ${(props) => props.theme.color.muted};
   font-family: ${(props) => props.theme.font.family.primary}, sans-serif;
   font-weight: ${(props) => props.theme.font.weight.regular};
@@ -10,18 +9,18 @@ export const Wrapper = styled.main`
     ${(props) => props.theme.font.size.xs} +
       ${(props) => props.theme.font.size.xs}
   );
-  min-height: 100vh;
-  position: relative;
-  padding: 0 25%;
+  height: 100vh;
+  width: 80vw;
+  margin-left: 10vw;
   cursor: default;
-  display: grid;
-  grid-template-columns: 3fr 1fr;
+  display: flex;
 `;
 Wrapper.displayName = "Wrapper";
 
-export const MessagesWrapper = styled.div`
-  height: 100vh;
-  overflow: hidden;
+export const MessagesWrapper = styled.ol`
+  list-style: none;
+  background: none;
+  margin: 0;
   display: flex;
   flex-direction: column;
 `;

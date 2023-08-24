@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Chat } from "../components/Chat";
 import { Home } from "../components/Home";

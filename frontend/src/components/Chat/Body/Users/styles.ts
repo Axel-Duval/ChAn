@@ -2,9 +2,10 @@ import { List } from "../../../../common/styles";
 import { styled } from "../../../../theme";
 
 export const UsersWrapper = styled.div`
-  height: 100vh;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: ${(props) => props.theme.space.md};
+  flex: 1;
 `;
 UsersWrapper.displayName = "UsersWrapper";
 
@@ -14,6 +15,5 @@ export const UsersList = styled(List)`
   flex-direction: row;
   height: auto;
   flex-wrap: wrap;
-  overflow-y: auto;
 `;
 UsersList.displayName = "UsersList";

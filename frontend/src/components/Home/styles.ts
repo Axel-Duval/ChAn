@@ -12,15 +12,26 @@ export const Wrapper = styled.main`
   );
   min-height: 100vh;
   position: relative;
-  padding: 0 25%;
   cursor: default;
+  padding: 0 10vw;
+
+  @media only screen and (min-width: 768px) {
+    padding: 0 25vw;
+  }
 `;
 Wrapper.displayName = "Wrapper";
 
 export const Picture = styled.img`
   position: absolute;
-  top: 0;
-  left: 35%;
-  width: 30%;
   z-index: 0;
+
+  top: 0;
+  left: 0%;
+  width: 100%;
+
+  @media only screen and (min-width: 768px) {
+    top: 0;
+    left: 35%;
+    width: clamp(300px, 50vw, 600px);
+  }
 `;

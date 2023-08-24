@@ -1,6 +1,4 @@
 import { styled } from "../../../theme";
 
-export const StyledForm = styled.form`
-  flex: 1;
-`;
+export const StyledForm = styled.form``;
 StyledForm.displayName = "Form";

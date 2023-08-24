@@ -33,14 +33,20 @@ Section.displayName = "Section";
 
 export const FlexSection = styled(Section)`
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  @media only screen and (min-width: 768px) {
+    align-items: center;
+    flex-direction: row;
+  }
 `;
 FlexSection.displayName = "Section.Flex";
 
 export const Title1 = styled.h1`
   font-family: ${(props) => props.theme.font.family.primary};
-  font-size: ${(props) => props.theme.font.size.xxxl};
+  font-size: clamp(1rem, 5vw, 50px);
+  line-height: clamp(1rem, 5vw, 50px);
   font-weight: ${(props) => props.theme.font.weight.bold};
   color: ${(props) => props.theme.color.white};
 `;

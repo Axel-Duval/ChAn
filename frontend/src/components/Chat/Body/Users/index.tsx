@@ -15,22 +15,6 @@ export const ChatUsers = ({ users }: IProps) => {
             <div>{u.username}</div>
           </ListItem>
         ))}
-        <ListItem>Axelze</ListItem>
-        <ListItem>Axelze</ListItem>
-        <ListItem>Axelze</ListItem>
-        <ListItem>Axelze</ListItem>
-        <ListItem>Axelze</ListItem>
-        <ListItem>Axelze</ListItem>
-        <ListItem>Axelze</ListItem>
-        <ListItem>Axelze</ListItem>
-        <ListItem>Axelze</ListItem>
-        <ListItem>Axelze</ListItem>
-        <ListItem>Axelze</ListItem>
-        <ListItem>Axelze</ListItem>
-        <ListItem>Axelze</ListItem>
-        <ListItem>Axelze</ListItem>
-        <ListItem>Axelze</ListItem>
-        <ListItem>LOL</ListItem>
       </UsersList>
     </UsersWrapper>
   );

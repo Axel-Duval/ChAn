@@ -15,6 +15,7 @@ import {
   ServerToClientEvents,
   SocketData
 } from './sockets';
+import { log } from './utils/logger';
 
 const PORT = process.env.PORT || 3010;
 
@@ -36,11 +37,4 @@ io.on('connection', socket => {
   socket.on('disconnecting', () => disconnecting(io, socket));
 });
 
-server.listen(PORT, () =>
-  console.log(
-    '\x1b[35m%s \x1b[33m[bootstrap]\x1b[0m Server is listening at %s:%s',
-    new Date().toISOString(),
-    'http://localhost',
-    PORT
-  )
-);
+server.listen(PORT, () => log('bootstrap', `Server is listening at http://localhost:${PORT}`));

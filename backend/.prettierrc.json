@@ -5,7 +5,7 @@
   "jsxBracketSameLine": true,
   "printWidth": 100,
   "singleQuote": true,
-  "trailingComma": "es5",
+  "trailingComma": "none",
   "tabWidth": 2,
   "comma-dangle": ["error", "never"]
 }

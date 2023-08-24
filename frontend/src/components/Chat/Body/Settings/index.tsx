@@ -20,24 +20,30 @@ export const ChatSettings = ({ sendColor }: IProps) => {
     sendColor(color);
   };
 
+  const handleBlurKey = () => {
+    dispatch({ type: "key", key });
+  };
+
   const handleReset = () => {
     setKey("");
-    dispatch({ type: "key", key: "" });
+  };
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+    handleBlurColor();
+    handleBlurKey();
   };
 
   return (
     <>
-      <Button
+      <Input
+        type="button"
+        value="Settings"
+        tabIndex={6}
         onClick={() => setIsModalOpen(true)}
         style={{ color, borderColor: color }}
-      >
-        Settings
-      </Button>
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        color={color}
-      >
+      />
+      <Modal isOpen={isModalOpen} onClose={handleClose} color={color}>
         <Field>
           <Label>Select a color</Label>
           <br />
@@ -46,40 +52,41 @@ export const ChatSettings = ({ sendColor }: IProps) => {
             name="color"
             type="color"
             tabIndex={1}
+            autoComplete="off"
             value={color}
             spellCheck={false}
             onChange={(e) => setColor(e.target.value)}
-            onBlur={handleBlurColor}
           />
         </Field>
         <Field>
           <Label>Encryption key</Label>
           <br />
-          <Input
-            id="key"
-            name="key"
-            type="text"
-            tabIndex={2}
-            value={key}
-            maxLength={10}
-            autoComplete={"off"}
-            onChange={(e) => setKey(e.target.value)}
-            onBlur={() => dispatch({ type: "key", key })}
-            style={{ color }}
-          />
-          <Input
-            type="button"
-            value="Random key"
-            tabIndex={3}
-            onClick={() => setKey(Random.key())}
-          />
-          <Input
-            disabled={key.length === 0}
-            type="button"
-            value="Reset"
-            tabIndex={3}
-            onClick={handleReset}
-          />
+          <div style={{ display: "flex" }}>
+            <Input
+              id="key"
+              name="key"
+              type="text"
+              tabIndex={2}
+              value={key}
+              maxLength={10}
+              autoComplete="off"
+              onChange={(e) => setKey(e.target.value)}
+              style={{ color }}
+            />
+            <Input
+              type="button"
+              value="Random key"
+              tabIndex={3}
+              onClick={() => setKey(Random.key())}
+            />
+            <Input
+              disabled={key.length === 0}
+              type="button"
+              value="Reset"
+              tabIndex={3}
+              onClick={handleReset}
+            />
+          </div>
         </Field>
       </Modal>
     </>
