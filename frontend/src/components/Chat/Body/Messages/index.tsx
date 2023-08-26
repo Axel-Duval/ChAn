@@ -3,6 +3,7 @@ import React from "react";
 import { FormattedMessage, Message } from "../../../../common/types/messages";
 import { StoredSocketData } from "../../../../common/types/sockets";
 import { ChatContext } from "../../../../context";
+import { theme } from "../../../../theme";
 import {
   List,
   MessageContent,
@@ -17,7 +18,15 @@ interface IProps {
   getById: (id: string) => StoredSocketData | undefined;
 }
 
+const ENCRYPTED_CONTENT = "******";
+const LOGGED_OUT_USER = {
+  id: "out",
+  color: theme.color.ultra,
+  username: "left user",
+};
+
 export const ChatMessages = ({ messages, self, getById }: IProps) => {
+  const [copy, setCopy] = React.useState<number | null>(null);
   const {
     state: { key },
   } = React.useContext(ChatContext);
@@ -40,18 +49,28 @@ export const ChatMessages = ({ messages, self, getById }: IProps) => {
     return messages
       .map((m) => {
         const user = getById(m.from);
-        if (!user) return null;
-        const content = CryptoJS.AES.decrypt(m.content, key).toString(
-          CryptoJS.enc.Utf8
-        );
-        return {
-          content: content.length > 0 ? content : "******",
-          at: new Date(m.at),
-          user,
-        };
+        try {
+          const content = CryptoJS.AES.decrypt(m.content, key).toString(
+            CryptoJS.enc.Utf8
+          );
+          return {
+            content: content.length > 0 ? content : ENCRYPTED_CONTENT,
+            at: new Date(m.at),
+            user: user ? user : LOGGED_OUT_USER,
+          };
+        } catch (error) {
+          return null;
+        }
       })
       .filter((m) => !!m) as FormattedMessage[];
   }, [messages, getById, key]);
+
+  React.useEffect(() => {
+    if (copy !== null) {
+      const t = setTimeout(() => setCopy(null), 1000);
+      return () => clearTimeout(t);
+    }
+  }, [copy]);
 
   return (
     <Wrapper ref={refList}>
@@ -65,7 +84,11 @@ export const ChatMessages = ({ messages, self, getById }: IProps) => {
           >
             <MessageContent
               color={m.user.color}
-              onClick={() => navigator.clipboard.writeText(m.content)}
+              copied={copy === i}
+              onClick={() => {
+                navigator.clipboard.writeText(m.content);
+                setCopy(i);
+              }}
             >
               <MessageMeta>{m.user.username}:</MessageMeta> {m.content}
             </MessageContent>

@@ -4,6 +4,7 @@ import { useSockets } from "../../../hooks/useSockets";
 import { ChatForm } from "./Form";
 import { ChatMessages } from "./Messages";
 import { ChatSettings } from "./Settings";
+import { ChatUsers } from "./Users";
 import { Wrapper } from "./styles";
 
 interface IProps {
@@ -23,16 +24,6 @@ export const ChatBody = ({ room }: IProps) => {
 
   return (
     <Wrapper>
-      {/* <MessagesWrapper>
-        <ChatMessages messages={messages} getById={getById} />
-        <ChatForm sendMessage={sendMessage} />
-      </MessagesWrapper>
-      <div
-        style={{ display: "flex", flexDirection: "column", padding: "20px 0" }}
-      >
-        <ChatUsers users={all} />
-        <ChatSettings sendColor={sendColor} />
-      </div> */}
       <div style={{ flex: 1, position: "relative" }}>
         <div
           style={{
@@ -48,7 +39,6 @@ export const ChatBody = ({ room }: IProps) => {
               marginBottom: "20px",
               width: "100%",
               display: "flex",
-              gap: "10px",
             }}
           >
             <ChatForm sendMessage={sendMessage} />
@@ -56,21 +46,7 @@ export const ChatBody = ({ room }: IProps) => {
           </footer>
         </div>
       </div>
-      <aside style={{ flex: 0.25 }}>
-        <ol
-          style={{
-            height: "100%",
-            overflowY: "auto",
-            overflowX: "hidden",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "4px",
-          }}
-        >
-          <li style={{ padding: "10px" }}>Hello World</li>
-          <li>Hello World</li>
-        </ol>
-      </aside>
+      <ChatUsers users={all} />
     </Wrapper>
   );
 };

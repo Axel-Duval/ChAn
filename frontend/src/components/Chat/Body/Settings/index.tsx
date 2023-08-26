@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal } from "../../../../common/components/Modal";
 import { Random } from "../../../../common/helpers/random";
-import { Button, Field, Input, Label } from "../../../../common/styles";
+import { Field, Input, Label } from "../../../../common/styles";
 import { ChatContext } from "../../../../context";
 
 interface IProps {

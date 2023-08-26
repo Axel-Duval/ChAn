@@ -90,7 +90,7 @@ export const Form = () => {
 
       <Input
         type="submit"
-        value="Let's chat"
+        value="Start to chat"
         disabled={!canChat}
         tabIndex={4}
       />

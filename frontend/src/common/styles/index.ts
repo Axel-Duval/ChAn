@@ -35,6 +35,7 @@ export const FlexSection = styled(Section)`
   display: flex;
   justify-content: center;
   flex-direction: column;
+  gap: 30px;
 
   @media only screen and (min-width: 768px) {
     align-items: center;
