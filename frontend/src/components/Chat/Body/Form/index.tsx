@@ -21,7 +21,13 @@ export const ChatForm = ({ sendMessage }: IProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", width: "100%" }}>
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        display: "flex",
+        width: "100%",
+      }}
+    >
       <Input
         id="message"
         name="message"

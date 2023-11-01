@@ -35,9 +35,8 @@ export const ChatBody = ({ room }: IProps) => {
           <ChatMessages messages={messages} getById={getById} self={self} />
           <footer
             style={{
-              marginTop: "auto",
-              marginBottom: "20px",
-              width: "100%",
+              margin: "auto auto 20px auto",
+              width: "min(100%, 800px)",
               display: "flex",
             }}
           >

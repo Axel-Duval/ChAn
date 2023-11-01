@@ -1,6 +1,7 @@
 import { styled } from "../../../theme";
 
 export const Wrapper = styled.main`
+  background-color: ${(props) => props.theme.color.black};
   color: ${(props) => props.theme.color.muted};
   font-family: ${(props) => props.theme.font.family.primary}, sans-serif;
   font-weight: ${(props) => props.theme.font.weight.regular};

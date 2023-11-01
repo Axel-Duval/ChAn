@@ -139,3 +139,31 @@ button:focus {
 html {
   background-color: black;
 }
+
+*::-webkit-scrollbar {
+  width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: #ffffff24;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #555555ff;
+  border-radius: 5px;
+}
+
+body {
+  background-color: #000000;
+  opacity: 1;
+  background-size: 20px 20px;
+  background-image: repeating-linear-gradient(
+    0deg,
+    #141414,
+    #141414 1px,
+    #000000 1px,
+    #000000
+  );
+}
