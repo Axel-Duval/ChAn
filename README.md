@@ -30,3 +30,7 @@
 - Markdown messages
 
 > Logos : Flaticon | ChatAnywhere ℠ 2022-2023 | Picture : Unsplash(Rendiansyah Nugroho)
+
+## Screenshots
+![Screenshot 2025-04-02 at 18-13-47 Chat Anywhere](https://github.com/user-attachments/assets/a0c2bbd3-bc10-4e7e-8136-6ff26dfd8fbb)
+![Screenshot 2025-04-02 at 18-14-38 Chat Anywhere](https://github.com/user-attachments/assets/2f031043-730a-4610-904b-3a898a9162c5)
