@@ -6,11 +6,12 @@ export const Description = () => (
     <Title1>Let's go !</Title1>
     <br />
     <Paragraph>
-      Nulla ornare risus in ante molestie, ut finibus est aliquet. Morbi vel
-      odio porttitor, consequat orci ut, fringilla velit. Vivamus porttitor
-      libero sed neque condimentum, sit amet mollis lacus auctor. In tincidunt
-      magna est, sed eleifend diam eleifend quis. Quisque ornare pretium purus a
-      accumsan. Maecenas elit ante, luctus ege.
+      Enter your username and a room name; feel free to use the default options
+      if you prefer. Once you're set up, you can start chatting! Customize your
+      experience by choosing your own color, which will be visible to others in
+      the room. Additionally, you can encrypt your messages using a symmetric
+      key that you'll need to share with your peers for secure communication.
+      Have fun!
     </Paragraph>
   </Wrapper>
 );
