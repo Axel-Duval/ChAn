@@ -10,12 +10,10 @@ export const Header = () => (
     </Title>
     <DescriptionWrapper>
       <Paragraph>
-        Nulla ornare risus in ante molestie, ut finibus est aliquet. Morbi vel
-        odio porttitor, consequat orci ut, fringilla velit. Vivamus porttitor
-        libero sed neque condimentum, sit amet mollis lacus auctor. In tincidunt
-        magna est, sed eleifend diam eleifend quis. Quisque ornare pretium purus
-        a accumsan. Maecenas elit ante, luctus eget justo porta, varius tempor
-        mauris.
+        Welcome to a secure and user-friendly live chat application that allows
+        you to communicate freely without the hassle of signups or ads. Built
+        with advanced technologies like Socket.io for real-time communication,
+        ChAn prioritizes your privacy and convenience.
       </Paragraph>
     </DescriptionWrapper>
   </StyledContainer>

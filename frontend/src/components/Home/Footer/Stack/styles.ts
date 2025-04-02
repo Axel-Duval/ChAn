@@ -5,5 +5,6 @@ export const Wrapper = styled.div`
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
+  gap: 30px;
 `;
 Wrapper.displayName = "Wrapper";
